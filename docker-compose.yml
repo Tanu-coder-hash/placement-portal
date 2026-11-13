@@ -1,0 +1,46 @@
+# PostgreSQL 16 + pgvector, and pgAdmin 4 (a visual database tool, like MySQL Workbench).
+#   docker compose up -d
+#   database : localhost:${DB_PORT}  (default 5432; set in .env)
+#   pgAdmin  : http://localhost:5050 (already connected to the database)
+# Credentials here must match DATABASE_URL in your .env.
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: placement-portal-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: placement
+      POSTGRES_PASSWORD: placement_dev_password
+      POSTGRES_DB: placement_portal
+      TZ: Asia/Kolkata
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U placement -d placement_portal"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: placement-portal-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@placementportal.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      # Desktop mode: opens straight into pgAdmin without a pgAdmin login
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    volumes:
+      - ./db/pgadmin-servers.json:/pgadmin4/servers.json:ro
+      - pgadmin:/var/lib/pgadmin
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
+  pgadmin:

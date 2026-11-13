@@ -1,0 +1,35 @@
+{
+  "name": "placement-portal",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Dual-database university placement portal: PostgreSQL for transactional data + pgvector for semantic resume-to-job matching.",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "db:setup": "node scripts/db-setup.js",
+    "db:seed": "node scripts/seed.js",
+    "db:reset": "node scripts/db-setup.js && node scripts/seed.js",
+    "embeddings:rebuild": "node scripts/rebuild-embeddings.js"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^3.5.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "jose": "^5.9.6",
+    "next": "^14.2.30",
+    "pdf-parse": "1.1.1",
+    "pg": "^8.13.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17"
+  },
+  "engines": {
+    "node": ">=18.18"
+  }
+}

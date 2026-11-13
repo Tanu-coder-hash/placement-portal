@@ -1,0 +1,14 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "PlacementPortal database",
+      "Group": "Servers",
+      "Host": "db",
+      "Port": 5432,
+      "MaintenanceDB": "placement_portal",
+      "Username": "placement",
+      "SSLMode": "prefer",
+      "Comment": "Password: placement_dev_password"
+    }
+  }
+}
